@@ -1,0 +1,85 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>คำนวณวันครบรอบคบกัน</title>
+    <style>
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            text-align: center;
+            margin-top: 50px;
+            background-color: #f8f8f8; /* สีพื้นหลังเป็นเทาอ่อน */
+        }
+        h2 {
+            color: #333;
+            margin-bottom: 30px;
+            font-size: 2.5rem;
+        }
+        input[type="date"] {
+            padding: 12px;
+            font-size: 16px;
+            border-radius: 8px;
+            border: 2px solid #ccc;
+            margin-bottom: 20px;
+            outline: none;
+        }
+        button {
+            padding: 12px 24px;
+            font-size: 16px;
+            background-color: #ff66b3; /* สีปุ่มคือสีชมพู */
+            color: white;
+            border: none;
+            border-radius: 8px;
+            cursor: pointer;
+            transition: background-color 0.3s ease;
+        }
+        button:hover {
+            background-color: #e65c9e; /* เมื่อ hover สีจะเข้มขึ้นเล็กน้อย */
+        }
+        #result {
+            font-size: 1.5rem;
+            margin-top: 30px;
+            padding: 20px;
+            background-color: #fff;
+            border-radius: 8px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+        }
+    </style>
+</head>
+<body>
+    <h2>คำนวณวันครบรอบคบกัน</h2>
+    <label for="start-date">วันที่คบกันเริ่มต้น:</label><br>
+    <input type="date" id="start-date" name="start-date" value="2020-09-25"><br>
+    <button onclick="calculateAnniversary()">คำนวณ</button>
+    <div id="result"></div>
+
+    <script>
+        function calculateAnniversary() {
+            var startDateInput = document.getElementById("start-date").value;
+            var startDate = new Date(startDateInput);
+            var endDate = new Date();
+
+            // คำนวณปี, เดือน, วันที่ต่าง ๆ
+            var years = endDate.getFullYear() - startDate.getFullYear();
+            var months = endDate.getMonth() - startDate.getMonth();
+            var days = endDate.getDate() - startDate.getDate();
+
+            // ปรับค่าตามเงื่อนไขเดือนเกิน
+            if (months < 0 || (months === 0 && days < 0)) {
+                years--;
+                months += (months < 0) ? 12 : 0;
+            }
+            if (days < 0) {
+                var tempDate = new Date(endDate.getFullYear(), endDate.getMonth(), 0);
+                days = tempDate.getDate() - startDate.getDate() + endDate.getDate();
+                months--;
+            }
+
+            // แสดงผลลัพธ์
+            var result = document.getElementById("result");
+            result.innerHTML = "คบกันมา " + years + " ปี " + months + " เดือน " + days + " วัน";
+        }
+    </script>
+</body>
+</html>
